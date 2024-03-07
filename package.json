@@ -1,5 +1,5 @@
 {
-  "name": "lesson-one",
+  "name": "learning_solana",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@solana/web3.js": "^1.90.1"
+    "@solana/web3.js": "^1.91.0"
   }
 }
