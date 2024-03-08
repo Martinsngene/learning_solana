@@ -1,5 +1,5 @@
 // Import Solana web3 functionalities
-const {
+import {
   Connection,
   PublicKey,
   clusterApiUrl,
@@ -8,7 +8,7 @@ const {
   Transaction,
   SystemProgram,
   sendAndConfirmTransaction,
-} = require("@solana/web3.js");
+} from "@solana/web3.js";
 
 // Secret Key
 const DEMO_FROM_SECRET_KEY = new Uint8Array([
@@ -33,18 +33,18 @@ const to = Keypair.generate();
 // Connect to Devnet
 const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
+// Get From Wallet Balance
+const fromWalletBalance = await connection.getBalance(
+  new PublicKey(from.publicKey)
+);
+
+// Get To Wallet Balance
+const toWalletBalance = await connection.getBalance(
+  new PublicKey(to.publicKey)
+);
+
 // Get Wallet Balance
 const getAccountBalance = async status => {
-  // Get From Wallet Balance
-  const fromWalletBalance = await connection.getBalance(
-    new PublicKey(from.publicKey)
-  );
-
-  // Get To Wallet Balance
-  const toWalletBalance = await connection.getBalance(
-    new PublicKey(to.publicKey)
-  );
-
   //   Print Wallet Balance To Console
   console.log(
     ` From Wallet balance ${status}: ${
@@ -84,11 +84,16 @@ const transferSol = async () => {
   console.log("Airdrop completed for the Sender account\n");
 
   // Send money from "from" wallet and into "to" wallet
+  let tranferAmount = parseInt((fromWalletBalance * 0.000000001) / 2);
+
+  // let tranferAmount = (fromWalletBalance * 0.000000001) / 2;
+
+  console.log(tranferAmount);
   let transaction = new Transaction().add(
     SystemProgram.transfer({
       fromPubkey: from.publicKey,
       toPubkey: to.publicKey,
-      lamports: LAMPORTS_PER_SOL / 100,
+      lamports: tranferAmount,
     })
   );
 
